@@ -20,6 +20,15 @@ async function run() {
     try {
         await client.connect();
         console.log('database connect successfully');
+        const database = client.db('ms_care');
+        const appointmentsCollection = database.collection('appointments');
+
+        app.post('/appointments', async (req, res) => {
+            const appointment = req.body;
+            const result = await appointmentsCollection.insertOne(appointment);
+            console.log(result);
+            res.json(result)
+        });
     }
     finally {
         // await client.close();
